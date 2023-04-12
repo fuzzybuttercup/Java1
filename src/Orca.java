@@ -1,8 +1,6 @@
 // CIS 145
 // Lab 2: Critters
 
-// Troy Bruette
-// Aiden Lim
 // Clay Molitor
 
 import java.awt.*;
@@ -12,6 +10,9 @@ import sun.misc.Unsafe;
 import java.lang.reflect.Field;
 import java.util.Map;
 
+// The Orca class returns values that are called from CritterPanel in order to run the Critter Game.
+// Aditionally, Hack can be used to edit private CritterPanel values in order to cheat.
+// Hack.add() adds critters of the passed type and Hack.genocide() replaces all species with the passed critter.
 public class Orca extends Critter {
 
 	static int count = 0;
@@ -59,9 +60,9 @@ public class Orca extends Critter {
 
 		periodicGC();
 
-		// Calls hacks in try/catch
+		// Calls hacks 
 		try {
-			// Add Orcas
+			// Replace all critters with specified critter
 			if(enableCheats)
 			{
 				Hack.genocide(Orca.class);
@@ -157,14 +158,12 @@ class Hack {
 	public static void genocide(Class survivorSpecies)
 			throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
 		
-		
 
-		Class privateInfoField;
-		Field pointField;
-		Field directionField;
+		//Class privateInfoField;
+		//Field pointField;
+		//Field directionField;
 
-
-		privateInfoField = CritterModel.class.getDeclaredClasses()[1];
+		//privateInfoField = CritterModel.class.getDeclaredClasses()[1];
 
 		
 
