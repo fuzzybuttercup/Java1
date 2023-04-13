@@ -1,4 +1,4 @@
-// CIS 145
+// CS 145
 // Lab 2: Critters
 
 // Clay Molitor
@@ -12,14 +12,15 @@ import java.util.Map;
 
 // The JetFighter class returns values that are called from CritterPanel in order to run the Critter Game.
 // Aditionally, Hack can be used to edit private CritterPanel values in order to cheat.
-// Hack.add() adds critters of the passed type and Hack.genocide() replaces all species with the passed critter.
+// Hack.add() adds critters of the passed type and Hack.genocide() replaces all living critters with the passed critter.
 public class JetFighter extends Critter {
 
 	static int count = 0;
 	static boolean first = true;
-	// i used for calculating when to calling garbage collection.
-	static int iGC = 0;
-	static boolean enableCheats = true;
+
+	// i incrimented every time any jet's move method is called.
+	static int i = 0;
+	static boolean enableCheats = false;
 
 
 	public JetFighter() {
@@ -46,8 +47,8 @@ public class JetFighter extends Critter {
 	// Runs about once every step.
 	// Must be run to send Jet's to GC so that finalize is called.
 	private static void periodicGC() {
-		iGC++;
-		if (iGC % (count) == 0) {
+		i++;
+		if (i % (count) == 0) {
 			System.gc();
 
 		}
