@@ -20,7 +20,7 @@ public class CritterMain {
         frame.add(30, FlyTrap.class);
         frame.add(30, Food.class);
         frame.add(30, Lion.class);
-        frame.add(30, Orca.class);
+        frame.add(30, JetFighter.class);
         frame.start();
     }
 }
