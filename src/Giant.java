@@ -6,7 +6,6 @@
 
 
 import java.awt.*;
-import java.util.zip.Deflater;
 
 
 public class Giant extends Critter{

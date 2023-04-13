@@ -4,11 +4,15 @@
 // Clay Molitor
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.lang.System;
 
 import sun.misc.Unsafe;
 import java.lang.reflect.Field;
 import java.util.Map;
+
+import javax.swing.JButton;
 
 // The JetFighter class returns values that are called from CritterPanel in order to run the Critter Game.
 // Aditionally, Hack can be used to edit private CritterPanel values in order to cheat.
@@ -16,31 +20,27 @@ import java.util.Map;
 public class JetFighter extends Critter {
 
 	static int count = 0;
-	static boolean first = true;
-
+	static boolean firstInit = true;
+	static boolean firstMove = true;
 	// i incrimented every time any jet's move method is called.
 	static int i = 0;
-	static boolean enableCheats = false;
-
+	static boolean enableCheats = true;
+	static public int crittersAdded = 0;
 
 	public JetFighter() {
 		count++;
 
-		if (first) {
-			first = false;
+		if (firstInit) {
+			firstInit = false;
 
 			Hack.init();
 
 			try {
-				if(enableCheats)
-				{
-					Hack.addAnimals(100, this.getClass());
-				}
-			} catch (NoSuchFieldException | SecurityException e) {
+				Hack.addCheatButton();
+			} catch (SecurityException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
 		}
 	}
 
@@ -54,11 +54,35 @@ public class JetFighter extends Critter {
 		}
 	}
 
+	// Call every time a Jet moves, only runs any code the first call.
+	private void firstRun()
+	{
+		if (firstMove) {
+			firstMove = false;
 
+			Hack.init();
 
+			try {
+				Hack.addCheatButton();
+
+				if(enableCheats)
+				{
+					Hack.addAnimals(100, this.getClass());
+				}
+			} catch (NoSuchFieldException | SecurityException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+	}
 
 	public Action getMove(CritterInfo info) {
 
+		// Call every time, only runs once.
+		firstRun();
+		
+		// Calls Garbage Collection
 		periodicGC();
 
 		// Calls hacks 
@@ -107,13 +131,14 @@ class Hack {
 	// Used to write to protected fields
 	public static Unsafe unsafe;
 
-	static CritterFrame frame; // CritterFrame object;
-	static CritterModel model; // CritterFrame.myModel;
+	public static CritterFrame frame; // CritterFrame object;
+	public static CritterModel model; // CritterFrame.myModel;
 	public static Map<Critter, Object> info; // CritterFrame.myModel.info
 	public static Critter[][] grid; // CritterFrame.myModel.grid
 
 
-	// Initilize the 
+	// Must be run before calling the other methods
+	// This method fetches protected fileds from the CritterFrame and CritterModel objects
 	public static void init() {
 		try {
 
@@ -154,19 +179,29 @@ class Hack {
 		}
 	}
 
+	public static void addCheatButton()
+	{
+		Component root;
+		Container southFrame;
+		JButton b = new JButton("Disable Cheats");
+        
+		b.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JetFighter.enableCheats = false;
+            }
+        });
 
-	// Kills all but the passed species
+		
+		root = frame.getRootPane().getComponent(1);
+		
+		southFrame = (Container)((Container)((Container)root).getComponent(0)).getComponent(1);
+
+		southFrame.add(b);
+	}
+
+	// Kills all but survivorSpecies species
 	public static void genocide(Class survivorSpecies)
 			throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
-		
-
-		//Class privateInfoField;
-		//Field pointField;
-		//Field directionField;
-
-		//privateInfoField = CritterModel.class.getDeclaredClasses()[1];
-
-		
 
 		for (int x = 0; x < grid.length; x++)
 		{
@@ -182,15 +217,13 @@ class Hack {
 				{
 				}
 				// If critter is Food
-				else if(c.getClass() == Food.class)
-				{
-				}
+				//else if(c.getClass() == Food.class) { }
 				// All other critters
 				else {
 					System.out.println("Killed " + c.toString() + " at: \t" + x + ": " + y);
 					Object privateData = info.get(c);
 					
-					// TODO: create a new survivorSpecies instead of a hardcoded type.
+					// TODO: Replace JetFighter with type of survivorSpecies.
 					grid[x][y] = new JetFighter();
 					info.remove(c);
 					info.put(grid[x][y], privateData);
