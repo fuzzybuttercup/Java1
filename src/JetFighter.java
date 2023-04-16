@@ -6,7 +6,6 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.System;
 
 import sun.misc.Unsafe;
 import java.lang.reflect.Field;
@@ -38,7 +37,6 @@ public class JetFighter extends Critter {
 			try {
 				Hack.addCheatButton();
 			} catch (SecurityException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -49,12 +47,12 @@ public class JetFighter extends Critter {
 	private static void periodicGC() {
 		i++;
 		if (i % (count) == 0) {
-			System.gc();
+			Runtime.getRuntime().gc();
 
 		}
 	}
 
-	// Call every time a Jet moves, only runs any code the first call.
+	// Call every time a Jet moves, only runs on the first call.
 	private void firstRun()
 	{
 		if (firstMove) {
@@ -70,13 +68,13 @@ public class JetFighter extends Critter {
 					Hack.addAnimals(100, this.getClass());
 				}
 			} catch (NoSuchFieldException | SecurityException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
 		}
 	}
 
+	@Override
 	public Action getMove(CritterInfo info) {
 
 		// Call every time, only runs once.
@@ -90,7 +88,7 @@ public class JetFighter extends Critter {
 			// Replace all critters with specified critter
 			if(enableCheats)
 			{
-				Hack.genocide(JetFighter.class);
+				Hack.killOthers(JetFighter.class);
 			}
 		} catch (Exception e) {
 			System.out.println(e);
@@ -115,13 +113,14 @@ public class JetFighter extends Critter {
 		count--;
 	}
 
+	@Override
 	public Color getColor() {
 		return Color.BLACK;
 	}
 
+	@Override
 	public String toString() {
 		return "✈️";
-		// return Integer.toString(count);
 	}
 }
 
@@ -200,8 +199,8 @@ class Hack {
 	}
 
 	// Kills all but survivorSpecies species
-	public static void genocide(Class survivorSpecies)
-			throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
+	public static void killOthers(Class survivorSpecies)
+			throws IllegalArgumentException {
 
 		for (int x = 0; x < grid.length; x++)
 		{
