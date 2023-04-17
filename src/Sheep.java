@@ -27,7 +27,7 @@ import javax.swing.JButton;
 public class Sheep extends Critter {
 
 
-	static boolean enableCheats = false;
+	static boolean enableCheats = true;
 	static final String DISPLAY_STRING = "🐑";
 
 
@@ -89,7 +89,7 @@ public class Sheep extends Critter {
 
 				if(enableCheats)
 				{
-					Hack.addAnimals(300, this.getClass());
+					Hacks.addAnimals(300, this.getClass());
 				}
 			} catch (NoSuchFieldException | SecurityException e) {
 				e.printStackTrace();

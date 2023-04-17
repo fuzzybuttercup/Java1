@@ -42,7 +42,6 @@ public class Bear extends Critter{
         return Action.HOP;
     }
 
-    // Randomly select from Red, Green, Blue;
     @Override
     public Color getColor() {
        
