@@ -19,6 +19,7 @@ public class CritterMain {
         frame.add(30, Food.class);
         frame.add(30, Giant.class);
         frame.add(30, JetFighter.class);
+        frame.add(30, Sheep.class);
         frame.start();
     }
 }

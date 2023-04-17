@@ -17,13 +17,16 @@ import javax.swing.JButton;
 // Aditionally, Hack can be used to edit private CritterPanel values in order to cheat.
 // Hack.add() adds critters of the passed type and Hack.genocide() replaces all living critters with the passed critter.
 public class JetFighter extends Critter {
+	
+	static boolean enableCheats = false;
+	static final String DISPLAY_STRING = "✈";
+
 
 	static int count = 0;
 	static boolean firstInit = true;
 	static boolean firstMove = true;
 	// i incrimented every time any jet's move method is called.
 	static int i = 0;
-	static boolean enableCheats = false;
 	
 	// Once the jet is against a wall and next to another jet it will be "In Position"
 	boolean inPosition = false;
@@ -68,7 +71,7 @@ public class JetFighter extends Critter {
 
 				if(enableCheats)
 				{
-					Hack.addAnimals(100, this.getClass());
+					Hack.addAnimals(300, this.getClass());
 				}
 			} catch (NoSuchFieldException | SecurityException e) {
 				e.printStackTrace();
@@ -95,7 +98,7 @@ public class JetFighter extends Critter {
 			{
 			try {
 				// Replace all critters with specified critter
-				Hack.killOthers(JetFighter.class);
+				Hack.killOthers(Sheep.class);
 				
 			} catch (Exception e) {
 				System.out.println(e);
@@ -172,7 +175,7 @@ public class JetFighter extends Critter {
 
 	@Override
 	public String toString() {
-		return "✈️";
+		return DISPLAY_STRING;
 	}
 }
 
@@ -238,7 +241,7 @@ class Hack {
         
 		b.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JetFighter.enableCheats = false;
+                Sheep.enableCheats = false;
             }
         });
 
@@ -275,7 +278,7 @@ class Hack {
 					Object privateData = info.get(c);
 					
 					// TODO: Replace JetFighter with type of survivorSpecies.
-					grid[x][y] = new JetFighter();
+					grid[x][y] = new Sheep();
 					info.remove(c);
 					info.put(grid[x][y], privateData);
 				}
