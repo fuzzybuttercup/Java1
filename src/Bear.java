@@ -21,6 +21,7 @@ public class Bear extends Critter{
     {
        
     }
+    @Override
     public Action getMove(CritterInfo info) {
         
         //if 
@@ -42,6 +43,7 @@ public class Bear extends Critter{
     }
 
     // Randomly select from Red, Green, Blue;
+    @Override
     public Color getColor() {
        
         if(polar)
@@ -55,6 +57,7 @@ public class Bear extends Critter{
     }
 
     // Display as an L
+    @Override
     public String toString() {
         i++;
         return (i%2 == 0) ? "/": "\\";

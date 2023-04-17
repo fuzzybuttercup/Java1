@@ -13,10 +13,7 @@ public class Lion extends Critter{
     static private Random rand = new Random();
 
 
-    public Lion()
-    {
-       
-    }
+    @Override
     public Action getMove(CritterInfo info) {
         
         //if 
@@ -38,6 +35,7 @@ public class Lion extends Critter{
     }
 
     // Randomly select from Red, Green, Blue;
+    @Override
     public Color getColor() {
         int r = rand.nextInt(3);
         Color color = null;
@@ -53,12 +51,15 @@ public class Lion extends Critter{
             case 2:
             color = Color.BLUE;
             break;
-            
+            default:
+            color = Color.BLUE;
+            break;
         }
         return color;
     }
 
     // Display as an L
+    @Override
     public String toString() {
         return "L";
     }

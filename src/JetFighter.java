@@ -23,12 +23,15 @@ public class JetFighter extends Critter {
 	static boolean firstMove = true;
 	// i incrimented every time any jet's move method is called.
 	static int i = 0;
-	static boolean enableCheats = true;
-	static public int crittersAdded = 0;
-
+	static boolean enableCheats = false;
+	
+	// Once the jet is against a wall and next to another jet it will be "In Position"
+	boolean inPosition = false;
+	boolean turnRightNext = false;
 	public JetFighter() {
 		count++;
 
+		// Could use a Random here instead
 		if (firstInit) {
 			firstInit = false;
 
@@ -74,9 +77,13 @@ public class JetFighter extends Critter {
 		}
 	}
 
+	// Jets will follow walls until they boarder another jet.
+	// Once adjacent to a jet they will turn into the center and infect all that pass.
+	// Jets will also turn to attack others on their left or right.
 	@Override
 	public Action getMove(CritterInfo info) {
 
+		
 		// Call every time, only runs once.
 		firstRun();
 		
@@ -84,27 +91,72 @@ public class JetFighter extends Critter {
 		periodicGC();
 
 		// Calls hacks 
-		try {
-			// Replace all critters with specified critter
-			if(enableCheats)
+		if(enableCheats)
 			{
+			try {
+				// Replace all critters with specified critter
 				Hack.killOthers(JetFighter.class);
+				
+			} catch (Exception e) {
+				System.out.println(e);
 			}
-		} catch (Exception e) {
-			System.out.println(e);
 		}
 
-		// Moving and attacking loginc
-		if (info.getFront() == Neighbor.OTHER) {
+
+		// ====== Moving and attacking logic ======
+		inPosition = false; // Sets draw color to default
+		if (info.getFront() == Neighbor.OTHER) { // Enemy in front
 			return Action.INFECT;
-		} else if (info.getFront() == Neighbor.WALL) {
+		}  else if(info.getFront() == Neighbor.EMPTY) { // Empty in front
+			if(turnRightNext && info.getRight() == Neighbor.EMPTY){ // Turns to the right to find gaps in "In Position" Jets.
+				turnRightNext = false;
+				return Action.RIGHT;
+			}
+			// Turn to face other
+			if(info.getLeft() == Neighbor.OTHER) {
+				return Action.LEFT;
+			}
+			// Turn to face other
+			else if(info.getRight() == Neighbor.OTHER) {
+				return Action.RIGHT;
+			}
+			// Walls on left or right, try and circle the walls until finding another jet
+			else if(info.getLeft() == Neighbor.WALL || info.getRight() == Neighbor.WALL)
+			{
+				if(info.getFront() == Neighbor.SAME) { // Turn away from wall if next to another plane
+					if (info.getLeft() == Neighbor.WALL){ 
+						return Action.RIGHT; 
+					}
+					else {
+						return Action.LEFT;
+					}
+				}
+				else {
+					return Action.HOP;
+				}
+			}
+			// if Wall behind, attack front
+			else if(info.getBack() == Neighbor.WALL)
+			{
+				inPosition = true; // Sets draw color to second color.
+				return Action.INFECT;
+			}
+			else{ // Default action, hop around
+				// If passing a Jet on the right turn right next turn
+				if(info.getRight() == Neighbor.SAME)
+				{
+					turnRightNext = true;
+				}
+				return Action.HOP;
+			}
+		} else if (info.getFront() == Neighbor.SAME) { // Ally in front
 			return Action.LEFT;
-		} else if (info.getFront() == Neighbor.SAME) {
+		} else if (info.getFront() == Neighbor.WALL) { // Wall in front
 			return Action.LEFT;
-		} else {
-
-			return Action.HOP;
-		}
+		}else // This should never be called
+		{
+			return Action.INFECT;
+		} // End of moving and attacking
 	}
 
 	@Override
@@ -115,7 +167,7 @@ public class JetFighter extends Critter {
 
 	@Override
 	public Color getColor() {
-		return Color.BLACK;
+		return (inPosition)? Color.WHITE : Color.BLACK;
 	}
 
 	@Override
