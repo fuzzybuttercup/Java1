@@ -282,7 +282,7 @@ public class Sheep extends Critter {
 			return Action.LEFT;
 		} 
 
-		return Action.HOP;
+		return attackMove(info);
 	}
 	protected Action eastWall(CritterInfo info)
 	{
