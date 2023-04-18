@@ -31,6 +31,7 @@ public class Sheep extends Critter {
 	static final String DISPLAY_STRING = "🐑";
 
 
+	// How far the sheep will shift south at the end of the stampede.
 	static final int STAMPEDE_SHIFT = 7;
 	static boolean stampede = false;
 	static int endingStampede = 0;
@@ -316,7 +317,7 @@ public class Sheep extends Critter {
 	}
 }
 
-
+// Access protected and private methods from CritterModel and CritterFrame
 class Hacks {
 
 	// Used to write to protected fields
@@ -406,6 +407,7 @@ class Hacks {
 				//If current grid contains the passed critter type
 				else if(c.getClass() == survivorSpecies)
 				{
+					// For each of the passed species
 				}
 				// All other critters
 				else {
