@@ -23,7 +23,7 @@ import javax.swing.JButton;
 
 // The Sheep class returns values that are called from CritterPanel in order to run the Critter Game.
 // Aditionally, Hacks can be used to edit private CritterPanel values in order to cheat.
-// Hacks.add() adds critters of the passed type and Hacks.genocide() replaces all living critters with the passed critter.
+// Hacks.add() adds critters of the passed type and Hacks.killOthers() replaces all living critters with the passed critter.
 public class Sheep extends Critter {
 
 

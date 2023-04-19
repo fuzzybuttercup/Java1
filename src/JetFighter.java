@@ -15,7 +15,7 @@ import javax.swing.JButton;
 
 // The JetFighter class returns values that are called from CritterPanel in order to run the Critter Game.
 // Aditionally, Hack can be used to edit private CritterPanel values in order to cheat.
-// Hack.add() adds critters of the passed type and Hack.genocide() replaces all living critters with the passed critter.
+// Hack.add() adds critters of the passed type and Hack.killOthers() replaces all living critters with the passed critter.
 public class JetFighter extends Critter {
 	
 	static boolean enableCheats = false;
