@@ -1,3 +1,4 @@
+package Critters;
 // Class CritterPanel displays a grid of critters
 
 import javax.swing.*;

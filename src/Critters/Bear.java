@@ -1,3 +1,4 @@
+package Critters;
 // Clay Molitor
 // Bear Critter
 // The Bear will be set to be white or black on creation. 

@@ -1,3 +1,4 @@
+package Critters;
 // Class CritterFrame provides the user interface for a simple simulation
 // program.
 

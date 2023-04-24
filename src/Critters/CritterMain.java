@@ -1,3 +1,4 @@
+package Critters;
 // CSE 142 Homework 9 (Critters)
 // Authors: Stuart Reges and Marty Stepp
 //          modified by Kyle Thayer

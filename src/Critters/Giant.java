@@ -1,19 +1,24 @@
+package Critters;
 // Clay Molitor
-// Lion Critter
-// The lion randomly flashes between red, green, and blue. 
-// Displays as an "L"
+// Giant Critter
+// The giant is grey 
+// Displays alternating "Fee", "fie", "foe",  and "fum"
 // Lion will infect critters in front and will avoid walls and other lions.
 
 
 import java.awt.*;
-import java.util.Random;
 
 
-public class Lion extends Critter{
-    static private Random rand = new Random();
+public class Giant extends Critter{
+    
+    
+    int i = 0;
 
 
-    @Override
+    public Giant()
+    {
+
+    }
     public Action getMove(CritterInfo info) {
         
         //if 
@@ -35,32 +40,36 @@ public class Lion extends Critter{
     }
 
     // Randomly select from Red, Green, Blue;
-    @Override
     public Color getColor() {
-        int r = rand.nextInt(3);
-        Color color = null;
-
-        switch(r)
-        {
-            case 0:
-            color = Color.RED;
-            break;
-            case 1:
-            color = Color.GREEN;
-            break;
-            case 2:
-            color = Color.BLUE;
-            break;
-            default:
-            color = Color.BLUE;
-            break;
-        }
-        return color;
+        
+        return Color.GRAY;
     }
 
     // Display as an L
-    @Override
     public String toString() {
-        return "L";
+
+        i++;
+
+        String name = "";
+        
+        switch((i/6) % 4)
+        {
+            case 0:
+            name = "fee";
+            break;
+            case 1:
+            name = "fie";
+            break;
+            case 2:
+            name = "foe";
+            break;
+            case 3:
+            name = "fum";
+            break;
+            default:
+            name = "fum"; // default is never run
+        }
+
+        return name;
     }
 }

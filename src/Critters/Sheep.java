@@ -1,3 +1,4 @@
+package Critters;
 // CS 145
 // Lab 2: Critters
 

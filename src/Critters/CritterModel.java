@@ -1,3 +1,4 @@
+package Critters;
 // Class CritterModel keeps track of the state of the critter simulation.
 
 import java.util.*;
