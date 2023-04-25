@@ -17,13 +17,25 @@ public class CardGame {
     {
 
         // Debug
-        String[] names= {"Fred", "Gob", "Hilly"};
-        String[] keys = {"F", "G", "H"};
+        // String[] names= {"Fred", "Gob", "Hilly"};
+        // String[] keys = {"F", "G", "H"};
 
 
         Scanner scanner = new Scanner(System.in);
+
         
-            CardGame game = new CardGame(names, keys, scanner);
+
+        int players = 0;
+        while (players <= 1)
+        {
+        System.out.print("How many players are playing? ");
+            players = scanner.nextInt();
+
+            scanner.nextLine(); // Clear scanner buffer
+            
+        }
+
+            CardGame game = new CardGame(players, scanner);
             
             game.playSlapJack();
             
