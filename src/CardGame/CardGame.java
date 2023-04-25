@@ -9,7 +9,7 @@ package CardGame;
  *  
  *  There is very little strategy in playing slap jack, especially on the computer, However it is a good game for implementing Lists.
  *  I used a stack for the center deck, however this stack is never used as a stack because cards are never drawn from the center.
- *      The center stack is shuffled into the successful slappers hand.
+ *      The center stack is shuffled and then added under the successful slappers hand.
  *  Each player has a Queue for their cards. Won cards are added to the bottom and played cards are taken from the top
  *  Also each player has a pointer to the next player, forming a circular, non indexed, linked list. Losing players are removed from the link.
  */
