@@ -187,16 +187,12 @@ public class CardGame {
             }
             // Ending round
             p = p.next();
-            playHand(p);
         }
 
         System.out.println(p.getName() + " has Won!");
 
     }
 
-    public String playHand(Player p) {
-        return "";
-    }
 
     public String rules() {
         return "Welcome to Clay's Slap Jack!\n" +
