@@ -7,11 +7,11 @@ package CardGame;
  *  My card game is slap jack, where players take turns placing cards faceup in a pile. When a jack is drawn all players try and slap it.
  *  The winner takes the stack, players lose a card if they slap incorrectly. If you run out of cards you lose.
  *  
- *  There is very little stratagy in playing slap jack, especially on the computer, However it is a good game for implementing Lists.
+ *  There is very little strategy in playing slap jack, especially on the computer, However it is a good game for implementing Lists.
  *  I used a stack for the center deck, however this stack is never used as a stack because cards are never drawn from the center.
- *      The center stack is shuffled into the succesful slappers hand.
- *  Each player has a Queue for thier cards. Won cards are added to the bottom and played cards are taken from the top
- *  Also each player has a pointer to the next player, forming a circular, unindexed, linked list. Losing players are removed from the link.
+ *      The center stack is shuffled into the successful slappers hand.
+ *  Each player has a Queue for their cards. Won cards are added to the bottom and played cards are taken from the top
+ *  Also each player has a pointer to the next player, forming a circular, non indexed, linked list. Losing players are removed from the link.
  */
 
 import java.util.*;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 // Plays slap jack
 public class CardGame {
 
-    // Setting, disable if emojis are not avaliable on your platform.
+    // Setting, disable if emojis are not available on your platform.
     static boolean enableEmojis = true;
 
     public static void main(String[] args) throws Exception {
@@ -179,7 +179,7 @@ public class CardGame {
 
             }
 
-            // eliminate loosers
+            // eliminate losers
             if (p.next().deckSize() == 0) {
                 System.out.println(p.next().getName() + " has been removed from the game.");
                 // p.remove removes the NEXT player
@@ -201,9 +201,9 @@ public class CardGame {
     public String rules() {
         return "Welcome to Clay's Slap Jack!\n" +
                 "The goal of slap jack is to slap the jacks.\n" +
-                "Each player will choose a key on the keyboard as thier slap key.\n" +
+                "Each player will choose a key on the keyboard as their slap key.\n" +
                 "When a Jack is drawn, be the first to press your slap key and then ENTER to win. \n" +
-                "The winner gets all the card in the center stack and adds them to thier deck.\n" +
+                "The winner gets all the card in the center stack and adds them to their deck.\n" +
                 "Once you are out of cards you are eliminated and can no longer play.\n" +
                 "The last player left is the winner.\n" +
                 "On your turn press enter to flip up a card when prompter. If it's a jack, Slap!\n" +
@@ -302,7 +302,7 @@ public class CardGame {
             this.suit = suit;
         }
 
-        // Rerurns an emoji for the cards suit.
+        // Returns an emoji for the cards suit.
         public String suitString() {
 
             switch (suit) {
@@ -342,7 +342,7 @@ public class CardGame {
             return f;
         }
 
-        // Returns a styalized card for printing to console
+        // Returns a stylized card for printing to console
         public String display() {
             String s = suitString();
             String f = faceString();
