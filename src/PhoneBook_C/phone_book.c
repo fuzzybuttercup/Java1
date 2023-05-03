@@ -67,6 +67,7 @@ void insertContact(contact* root, contact* newContact) {
             current = current->next;
         }
         current->next = newContact;
+        
     
     printf("\n");
 }
@@ -74,28 +75,39 @@ void insertContact(contact* root, contact* newContact) {
 // Pass NULL or "" for any values that will not be used in the search
 contact* searchContact(contact* root, char* firstName, char* lastName, char* city, char* address, char* phoneNumber, char* SSN)
 {
-    // list of all variables
-    // sizeof all char*s in contacts minus contact's "next" pointer
-    char* searches[(sizeof(contact)-sizeof(contact*)) / sizeof(char*)] = 
+
+    // array of all char* fields in contact.
+    char* searches[(sizeof(contact)-sizeof(contact*)) / sizeof(char*) + 1] = 
         {firstName, lastName, city, address, phoneNumber, SSN, NULL};
 
-    // 
+    // Iterates all contacts.
     for(contact* tempContact = root; tempContact != NULL; tempContact = tempContact->next)
     {
+        
         int i = 0;
-        for(char* tempStr = searches[i]; tempStr != NULL; i++)
+        char* searchTemp = searches[i];
+        
+        // Iterates all fileds in seaches.
+        for(int i = 0; searchTemp != NULL; searchTemp = searches[++i])
         {
-            prinf("i: %i Data: %s", i, tempStr);
+            // Pointer to each field in current contact 
+            char** data = &tempContact->firstName + i;
+
+            //TODO compare and return any matches.
+            printf("\ti: %i Search: %s, \t Data: %s\n", i, searchTemp, *data);
+            
         }
+        printf("\n");
     }
     return root;
 }
 // Pass root by reference
+// Removes the passed contact from the linked list.
 void removeContact(contact* root, contact* target){
 
     contact* current = root;
 
-    // If root is to be removed
+    // If root is to be removed, edit the root pointer
     if(root == target)
     {
         current = &root;
@@ -111,7 +123,6 @@ void removeContact(contact* root, contact* target){
         }
         current = current->next; // Go to next element
     }
-
 }
 
 
@@ -120,9 +131,9 @@ int main()
     printf("Starting...\n");
 
     contact* a = newContact("Alf", "Armold", "Boston", "132 3465th Ave.", "+1(456)-764-3455", "541-45-1234");
-    contact* b = newContact("Bob", "Milton", "Seattle", "432 15th St.", "+1(123)-667-6675", "565-72-5432");
-    contact* c = newContact("Chuck", "Stuff", "Mt. Vernon", "1010 States Rd.", "+1(336)-764-0044", "987-95-9432");
-    contact* d = newContact("Dev", "Norm", "place", "645 States Rd.", "+1(336)-764-0044", "987-95-9432");
+    contact* b = newContact("Bob", "Cilton", "Seattle", "432 15th St.", "+1(123)-667-6675", "565-72-5432");
+    contact* c = newContact("Chuck", "Ctuff", "Mt. Vernon", "1010 States Rd.", "+1(336)-764-0044", "987-95-9432");
+    contact* d = newContact("Dev", "Dorm", "place", "645 States Rd.", "+1(336)-764-0044", "987-95-9432");
 
     contact* first = NULL;
 
@@ -134,7 +145,7 @@ int main()
     //removeContact(&first, a);
     //removeContact(&first, c);
 
-    searchContact(first, "first", "LAst", "Town", "123 Street LN.", "(123)123-1234", "123-12-1234");
+    searchContact(first, "First", "Last", "Town", "123 Street LN.", "(123)123-1234", "123-12-1234");
 
     // For each in list
     contact* temp = first;
