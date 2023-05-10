@@ -63,9 +63,7 @@ public:
 			if(checkValid(letter, false)) {
 				( *countAt(letter) )++; // Add one to the letters count
 			}
-
 		}
-		
 	}
 	int get(char letter)
 	{
@@ -75,6 +73,7 @@ public:
 	// Sets letterCount to "value" at the index of "letter"
 	void set(char letter, int value)
 	{
+		lastSize = -1;
 		letter = tolower(letter);
 		*countAt(letter) = value;
 	}
@@ -154,7 +153,7 @@ int main() {
 	std::cout << "------- SET -------" << std::endl;
 	LetterInventory a("a a a bcdefgggggg-hyzz...123,?g");
 
-	a.set('f', 25);
+	a.set('f', 250);
 	for(char letter = 'a'; letter <= 'z'; letter++)
 	{
 		std::cout << letter << "> " << a.get(letter) << std::endl; 
@@ -177,19 +176,24 @@ int main() {
 	std::cout << "------- ADDITION -------" << std::endl;
 	LetterInventory d = a + a + c + a;
 
-	for(char letter = 'a'; letter <= 'z'; letter++)
-	{
-		std::cout << letter << ": " << d.get(letter) << std::endl; 
-	}
+	std::cout << "Size of A: \t" << a.size() << std::endl;
+	a.set('r', 50);
+	std::cout << "New Size of A:\t" << a.size() << std::endl;
+
+
+
 
 
 	std::cout << "------- SUBTRACTION -------" << std::endl;
 	std::optional<LetterInventory> e = a.subtract(bee); // Will return null
-	std::optional<LetterInventory> f = d.subtract(c); // Will not return null;
+	std::optional<LetterInventory> f = bee.subtract(a); // Will not return null;
 
 	std::cout << ((e)? "E is not Null" : "E is Null") << std::endl;
 	std::cout << ((f)? "F is not Null" : "F is Null") << std::endl;
-	
+	std::cout << "Size of Bee: \t" << bee.size() << std::endl;
+	std::cout << "Size of Bee-A:\t" << bee.subtract(a).value().size() << std::endl;
+
+
 
 
 	return 0;
