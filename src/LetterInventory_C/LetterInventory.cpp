@@ -10,14 +10,14 @@
 // CS 145
 // Letter Inventory: Lab 03
 /*
-	Letter inventory is a class that takes a string and keeps a count of the numbers of each letter in this string.
-	These counts can be altered through set() and got through get().
+	LetterInventory is a class that takes a string and keeps a count of the numbers of each letter in this string.
 	All characters are converted to lower case and all non-alphabet characters are dropped.
+	Counts can be altered through set() and got through get().
+
 
 	For extra credit I:
-		used C++ 
+		Used C++ 
 		Implemented operator overloads
-
 
 */
 
@@ -38,7 +38,6 @@ private:
 		checkValid(letter, true);
 		//std::cout << letter  << "- " << letter - 'a' << std::endl;
 		return &lettersCount[letter - 'a'];
-
 	}
 
 	// Returns true if the letter is inside the a-z range.
@@ -128,7 +127,6 @@ public:
 			} 
 			return sum;
 		}
-		
 	}
 
 	// Returns a new LetterInventory with the sum of the letter counts
@@ -169,7 +167,7 @@ public:
 	
 };
 
-// Test the functionality of the above class
+// Test and demonstrate the functionality of the above class
 int main() {
 	
 
