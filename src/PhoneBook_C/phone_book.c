@@ -1,11 +1,11 @@
 // Clay Molitor
 // Troy Barker
-// Aiden Lim
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <ctype.h>
+#include <string.h>
 
 #include "phone_book.h"
 
@@ -53,7 +53,7 @@ void insertContact(contact* root, contact* newContact) {
     printf("\n");
 }
 // Pass root by reference
-// Pass NULL or "" for any values that will not be used in the search
+// Pass NULL for any values that will not be used in the search
 contact* searchContact(contact* root, char* firstName, char* lastName, char* city, char* address, char* phoneNumber, char* SSN)
 {
 
@@ -67,20 +67,31 @@ contact* searchContact(contact* root, char* firstName, char* lastName, char* cit
         
         int i = 0;
         char* searchTemp = searches[i];
-        
-        // Iterates all fileds in seaches.
+        bool match = true;
+        // Iterates all elements in seaches array.
         for(int i = 0; searchTemp != NULL; searchTemp = searches[++i])
         {
             // Pointer to each field in current contact 
             char** data = &tempContact->firstName + i;
 
-            //TODO compare and return any matches.
-            printf("\ti: %i Search: %s, \t Data: %s\n", i, searchTemp, *data);
-            
+
+            if(searchTemp != NULL || searchTemp != "" || searchTemp != 0) // If current search is not NULL
+            {
+                if(strcmp(searchTemp, *data) == 0) {
+                    // printf("\ti: %i Search: %s, \t Data: %s\n", i, searchTemp, *data);
+                }
+                else {
+                    match = false;
+                }
+            }
+        }
+        if(match)
+        {
+            return tempContact;
         }
         printf("\n");
     }
-    return root;
+    return NULL;
 }
 // Pass root by reference
 // Removes the passed contact from the linked list.
@@ -126,18 +137,28 @@ int main()
     //removeContact(&first, a);
     //removeContact(&first, c);
 
-    searchContact(first, "First", "Last", "Town", "123 Street LN.", "(123)123-1234", "123-12-1234");
 
-    // For each in list
-    contact* temp = first;
-    while (temp != NULL)
+    contact* search = searchContact(first, "Alf", NULL, NULL, NULL, NULL, NULL);
+    
+    if(search != NULL)
+    {
+        printf("Search: %s %s\n", search->firstName, search->lastName);
+    }
+
+    // For each in list, print full name.
+    for (contact* temp = first; temp != NULL; temp = temp->next)
     {
         printf("Name: %s %s\n", temp->firstName, temp->lastName);
         
-        temp = temp->next;
     }
     
     
     return 0;
 }
 
+void userInput(){
+
+
+
+    return;
+}
