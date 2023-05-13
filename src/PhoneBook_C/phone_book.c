@@ -1,6 +1,5 @@
 // Clay Molitor
 // Troy Barker
-// Aiden Lim
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -68,7 +67,7 @@ contact* searchContact(contact* root, char* firstName, char* lastName, char* cit
         int i = 0;
         char* searchTemp = searches[i];
         
-        // Iterates all fileds in seaches.
+        // Iterates all fields in searches.
         for(int i = 0; searchTemp != NULL; searchTemp = searches[++i])
         {
             // Pointer to each field in current contact 
@@ -105,38 +104,74 @@ void removeContact(contact* root, contact* target){
         current = current->next; // Go to next element
     }
 }
-
-
-int main()
+ //  ---------------------------------- Code Tests ----------------------------------
+// A user interface to test the functionality of the code above.
+void userInterface()
 {
-    printf("Starting...\n");
 
-    contact* a = newContact("Alf", "Armold", "Boston", "132 3465th Ave.", "+1(456)-764-3455", "541-45-1234");
-    contact* b = newContact("Bob", "Cilton", "Seattle", "432 15th St.", "+1(123)-667-6675", "565-72-5432");
-    contact* c = newContact("Chuck", "Ctuff", "Mt. Vernon", "1010 States Rd.", "+1(336)-764-0044", "987-95-9432");
-    contact* d = newContact("Dev", "Dorm", "place", "645 States Rd.", "+1(336)-764-0044", "987-95-9432");
+    contact* root = NULL;
+    contact* current = NULL;
+    char* inputs[6][256]; // Max input length of 128
+    char prompts[6][20] = {"First Name: ", "Last Name: ", "City: ", "Address: ", "Phone Number: ", "SSN: "};
 
-    contact* first = NULL;
+    // goto user_choice // Skip default entries
+    current = newContact("Alf", "Arnold", "Boston", "132 3465th Ave.", "+1(456)-764-3455", "541-45-1234");
+    insertContact(&root, current);
+    current = newContact("Bob", "Bobert", "Seattle", "432 15th St.", "+1(123)-667-6675", "565-72-5432");
+    insertContact(&root, current);
+    current = newContact("Chuck", "Cuff", "Mt. Vernon", "1010 States Rd.", "+1(336)-764-0044", "987-95-9432");
+    insertContact(&root, current);
+    current = newContact("Dev", "Dorm", "Alberta", "645 States Rd.", "+1(336)-764-0044", "987-95-9432");
+    insertContact(&root, current);
 
-    insertContact(&first, a);
-    insertContact(&first, b);
-    insertContact(&first, c);
-    insertContact(&first, d);
+    goto user_choice;
 
-    //removeContact(&first, a);
-    //removeContact(&first, c);
+search_contact:
+    printf("Enter The information of the contact you would like to find, Leave blank any fields not to be searched for\n");
 
-    searchContact(first, "First", "Last", "Town", "123 Street LN.", "(123)123-1234", "123-12-1234");
+get_contact:
 
-    // For each in list
-    contact* temp = first;
-    while (temp != NULL)
+    
+    // For each field in contacts, prompt and get a user input
+    for(int i = 0; i < 6; i++) 
+    {
+        printf("%s", &prompts[i]);
+       
+        gets( &inputs[i]);
+        
+    }
+    current = searchContact(root, inputs[0], inputs[1], inputs[2], inputs[3], inputs[4], inputs[5]);
+
+    if(current == NULL)
+    {
+        printf("This entry was not found");
+    }
+    else
+    {
+        printf("Name: %s %s\n", current->firstName, current->lastName);
+    }
+user_choice:
+
+
+    goto search_contact;
+
+display_all:
+
+    for (contact* temp = root; temp != NULL; temp = temp->next)
     {
         printf("Name: %s %s\n", temp->firstName, temp->lastName);
         
         temp = temp->next;
     }
     
+end:
+
+}
+
+int main()
+{
+    userInterface();
+    //removeContact(&first, c);
     
     return 0;
 }
