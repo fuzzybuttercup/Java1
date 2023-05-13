@@ -6,6 +6,20 @@
 
 #include "LetterInventory.hpp"
 
+// Clay Molitor
+// CS 145
+// Letter Inventory: Lab 03
+/*
+	LetterInventory is a class that takes a string and keeps a count of the numbers of each letter in this string.
+	All characters are converted to lower case and all non-alphabet characters are dropped.
+	Counts can be altered through set() and got through get().
+
+
+	For extra credit I:
+		Used C++ 
+		Implemented operator overloads
+
+*/
 
 class LetterInventory {
 private:
@@ -24,7 +38,6 @@ private:
 		checkValid(letter, true);
 		//std::cout << letter  << "- " << letter - 'a' << std::endl;
 		return &lettersCount[letter - 'a'];
-
 	}
 
 	// Returns true if the letter is inside the a-z range.
@@ -70,25 +83,32 @@ public:
 		letter = tolower(letter);
 		return *countAt(letter);
 	}
-	// Sets letterCount to "value" at the index of "letter"
+	// Sets letterCount to "value" at the index of "letter".
 	void set(char letter, int value)
 	{
-		lastSize = -1;
+		lastSize = -1; // Marks lastSize to be recalculated.
 		letter = tolower(letter);
 		*countAt(letter) = value;
 	}
-
+	// Prints all counted characters ordered alphabetically.
 	std::string toString()
 	{
-		// TODO:
-		return "string";
+		std::string output = "[";
+		for(char letter = 'a'; letter <= 'z'; letter++)
+		{
+			int count = *countAt(letter);
+			output += std::string(count, letter);
+		} 
+		return output + "]";
 	}
 
+	// Returns true if all letters are of count 0.
 	bool isEmpty()
 	{
 		return size() == 0;
 	}
 
+	// Returns the total of all letters count.
 	int size()
 	{
 		
@@ -107,9 +127,9 @@ public:
 			} 
 			return sum;
 		}
-		
 	}
 
+	// Returns a new LetterInventory with the sum of the letter counts
 	LetterInventory add(LetterInventory that)
 	{
 		LetterInventory sum("");
@@ -120,8 +140,9 @@ public:
 		}
 		return sum;
 	}
-	// Subtracts the counts 
-	//Returns type optional<LetterInventory> to mimic Java's ability to return NULL non-pointer objects
+	// Subtracts the counts of the passed object from the current object
+	// Returns empty optional<> if any letter counts are negative
+	// Returns type optional<LetterInventory> to mimic Java's ability to return NULL non-pointer objects
 	std::optional<LetterInventory> subtract (LetterInventory that)
 	{
 		LetterInventory sum("");
@@ -138,7 +159,7 @@ public:
 		}
 		return sum;
 	}
-	// Addition operator overload
+	// Addition operator overload, returns add(that)
 	LetterInventory operator+(LetterInventory const& that)
 	{
 		return this->add(that);
@@ -146,10 +167,10 @@ public:
 	
 };
 
-// Test the functionality of the above class
+// Test and demonstrate the functionality of the above class
 int main() {
 	
-	
+
 	std::cout << "------- SET -------" << std::endl;
 	LetterInventory a("a a a bcdefgggggg-hyzz...123,?g");
 
@@ -175,13 +196,12 @@ int main() {
 
 	std::cout << "------- ADDITION -------" << std::endl;
 	LetterInventory d = a + a + c + a;
+	std::cout << "Size of D: \t" << d.size() << std::endl;
 
+	std::cout << "------- SET -------" << std::endl;
 	std::cout << "Size of A: \t" << a.size() << std::endl;
-	a.set('r', 50);
+	a.set('f', 83);
 	std::cout << "New Size of A:\t" << a.size() << std::endl;
-
-
-
 
 
 	std::cout << "------- SUBTRACTION -------" << std::endl;
@@ -191,9 +211,12 @@ int main() {
 	std::cout << ((e)? "E is not Null" : "E is Null") << std::endl;
 	std::cout << ((f)? "F is not Null" : "F is Null") << std::endl;
 	std::cout << "Size of Bee: \t" << bee.size() << std::endl;
-	std::cout << "Size of Bee-A:\t" << bee.subtract(a).value().size() << std::endl;
+	std::cout << "Size of Bee - A:" << bee.subtract(a).value().size() << std::endl;
 
 
+	std::cout << "------- TO STRING -------" << std::endl;
+	std::cout << "A to string: \t" <<a.toString() << std::endl;
+	std::cout << "Bee to string:\t" <<bee.toString() << std::endl;
 
 
 	return 0;
