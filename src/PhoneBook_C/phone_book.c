@@ -1,6 +1,24 @@
 // Clay Molitor
 // Troy Barker
 
+
+/*
+    CS 145
+    Assignment 2: Phone Book
+
+    The phone book functions and struct manage a linked list of contact information structs and functions for manipulating this list.
+    The list can be expanded with insertContact() and shrunk with removeContact().
+    Individual contacts can be found in the list with searchContact() and new individual contacts can be made with newContact().
+    Each contact contains the following string: firstName, lastName, city, address, phoneNumber and SSN;
+
+    For extra credit we:
+        Used c
+        And I'm pretty sure there are no memory leaks.
+
+    For minus credit we:
+        Used GOTOs, I won't be able to use them in the workforce, for good reason, so I thought I'd use them while I can.
+
+*/
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
