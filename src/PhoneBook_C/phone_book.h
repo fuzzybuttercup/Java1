@@ -20,3 +20,4 @@ void insertContact(contact*, contact*);
 contact* newContact(char*, char*, char*, char*, char*, char*);
 contact* searchContact(contact*, char*, char*, char*, char*, char*, char*);
 void removeContact(contact*, contact*);
+void printContact(contact* data);

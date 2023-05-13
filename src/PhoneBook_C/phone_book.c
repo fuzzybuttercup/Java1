@@ -75,12 +75,12 @@ contact* searchContact(contact* root, char* firstName, char* lastName, char* cit
             char** data = &tempContact->firstName + i;
 
 
-            if(searchTemp != NULL || searchTemp != "" || searchTemp != 0) // If current search is not NULL
+            if(strcmp(searchTemp, "") != 0) // If current search is not empty
             {
                 if(strcmp(searchTemp, *data) == 0) {
-                    // printf("\ti: %i Search: %s, \t Data: %s\n", i, searchTemp, *data);
+                    // printf("\ti: %i Search: %s, \t Data: %s\n", i, searchTemp, *data); // print matched 
                 }
-                else {
+                else { // any non
                     match = false;
                 }
             }
@@ -99,7 +99,7 @@ void removeContact(contact* root, contact* target){
 
     contact* current = root;
 
-    // If root is to be removed, edit the root pointer
+    // If root is to be removed, edit the root pointer to be a reference.
     if(root == target)
     {
         current = &root;
@@ -116,16 +116,27 @@ void removeContact(contact* root, contact* target){
         current = current->next; // Go to next element
     }
 }
+// Prints the fields of the contact to terminal on one line.
+// All values labeled and separated by a comma
+void printContact(contact* data)
+{
+    printf("Full Name: %s %s, City: %s, Address: %s, Phone Number %s, SSN: %s\n", 
+    data->firstName, data->lastName, data->city, data->address, data->phoneNumber, data->SSN);
+}
  //  ---------------------------------- Code Tests ----------------------------------
 // A user interface to test the functionality of the code above.
 void userInterface()
 {
+
+    // I wanted to use GOTOs once and this is the least bad place I could find for them.
 
     contact* root = NULL;
     contact* current = NULL;
     char* inputs[6][256]; // Max input length of 128
     char prompts[6][20] = {"First Name: ", "Last Name: ", "City: ", "Address: ", "Phone Number: ", "SSN: "};
 
+    bool remove = false; // if true search_contact will remove contacts 
+    bool add = false; // if true search_contact will jump back to add_contact 
     // goto user_choice // Skip default entries
     current = newContact("Alf", "Arnold", "Boston", "132 3465th Ave.", "+1(456)-764-3455", "541-45-1234");
     insertContact(&root, current);
@@ -139,43 +150,88 @@ void userInterface()
     goto user_choice;
 
 search_contact:
-    printf("Enter The information of the contact you would like to find, Leave blank any fields not to be searched for\n");
+    printf("Enter The information of the contact you would like to select, Leave blank any fields not to be searched for\n");
 
-get_contact:
-
-    
+user_input: // Begin add_contact jump 
     // For each field in contacts, prompt and get a user input
     for(int i = 0; i < 6; i++) 
     {
         printf("%s", &prompts[i]);
        
-        gets( &inputs[i]);
+        gets( inputs[i]);
         
     }
+    if(add) { goto add_contact_b;} // End add_contact jump 
+
+
     current = searchContact(root, inputs[0], inputs[1], inputs[2], inputs[3], inputs[4], inputs[5]);
 
-    if(current == NULL)
+    if(current == NULL) // If no contact found
     {
         printf("This entry was not found");
     }
-    else
+    else // Contact found
     {
-        printf("Name: %s %s\n", current->firstName, current->lastName);
+        if(remove)
+        {
+            printf("Removing: \n\t");
+            printContact(current);
+            removeContact(&root, current);
+        }
+        else
+        {
+            printf("Found: \n\t");
+            printContact(current);
+        }
     }
+    printf("\n");
+    remove = false;
+
 user_choice:
 
+    int choice = 0;
+    printf("1: Print contacts, 2: Search contacts, 3: Remove contact, 4: Add contact, 5: quit > ");
+    scanf("%i", &choice);
+    gets(inputs[0]); // Clear buffer after scanf usage
+    switch (choice)
+    {
+    case 1:
+        goto print_all;
+    case 2:
+        remove = false;
+        goto search_contact;
+    case 3:
+        remove = true;
+        goto search_contact;
+    case 4:
+        goto add_contact;
+    case 5:
+        goto end;
+    
+    default:
+        goto user_choice;
+    }
 
-    goto search_contact;
+add_contact: // Prompts the user for contact info and adds it to the array
+    add = true; // Flags user_input to jump back to add_contact_b
+    printf("Enter The contact information\n");
 
+    goto user_input;
+add_contact_b: // part two of add contact, called from user_input.
+    insertContact(&root, 
+        newContact(inputs[0], inputs[1], inputs[2], inputs[3], inputs[4], inputs[5]));
+
+    add = false;
 print_all:
 
     // For each in list, print full name.
+    printf("\n");
     for (contact* temp = root; temp != NULL; temp = temp->next)
     {
-        printf("Name: %s %s\n", temp->firstName, temp->lastName);
-        
+        printContact(temp);
     }
-    
+    printf("\n");
+    goto user_choice;
 end:
 
 }
@@ -183,14 +239,6 @@ end:
 int main()
 {
     userInterface();
-    //removeContact(&first, c);
     
     return 0;
-}
-
-void userInput(){
-
-
-
-    return;
 }
