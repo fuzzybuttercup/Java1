@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <ctype.h>
+#include <string.h>
 
 #include "phone_book.h"
 
@@ -52,7 +53,7 @@ void insertContact(contact* root, contact* newContact) {
     printf("\n");
 }
 // Pass root by reference
-// Pass NULL or "" for any values that will not be used in the search
+// Pass NULL for any values that will not be used in the search
 contact* searchContact(contact* root, char* firstName, char* lastName, char* city, char* address, char* phoneNumber, char* SSN)
 {
 
@@ -66,20 +67,31 @@ contact* searchContact(contact* root, char* firstName, char* lastName, char* cit
         
         int i = 0;
         char* searchTemp = searches[i];
-        
-        // Iterates all fields in searches.
+        bool match = true;
+        // Iterates all elements in seaches array.
         for(int i = 0; searchTemp != NULL; searchTemp = searches[++i])
         {
             // Pointer to each field in current contact 
             char** data = &tempContact->firstName + i;
 
-            //TODO compare and return any matches.
-            printf("\ti: %i Search: %s, \t Data: %s\n", i, searchTemp, *data);
-            
+
+            if(searchTemp != NULL || searchTemp != "" || searchTemp != 0) // If current search is not NULL
+            {
+                if(strcmp(searchTemp, *data) == 0) {
+                    // printf("\ti: %i Search: %s, \t Data: %s\n", i, searchTemp, *data);
+                }
+                else {
+                    match = false;
+                }
+            }
+        }
+        if(match)
+        {
+            return tempContact;
         }
         printf("\n");
     }
-    return root;
+    return NULL;
 }
 // Pass root by reference
 // Removes the passed contact from the linked list.
@@ -155,13 +167,13 @@ user_choice:
 
     goto search_contact;
 
-display_all:
+print_all:
 
+    // For each in list, print full name.
     for (contact* temp = root; temp != NULL; temp = temp->next)
     {
         printf("Name: %s %s\n", temp->firstName, temp->lastName);
         
-        temp = temp->next;
     }
     
 end:
@@ -176,3 +188,9 @@ int main()
     return 0;
 }
 
+void userInput(){
+
+
+
+    return;
+}
