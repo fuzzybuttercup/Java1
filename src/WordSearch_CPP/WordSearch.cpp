@@ -54,13 +54,13 @@ public:
 };
 
 vector<Cluster> optimalClusters = vector<Cluster>();
-
+int counter = 0;
 // Saves highest scoring clusters to optimalClusters
 // Called for every possible cluster found by chainBuilder
 // Calls generateCluster to turn linked words into word search ready arrays.
 void storeCluster(Word* word, list<string> leftOvers)
 {
-
+    counter++;
     try
     {
         auto mapResults = map<int, map<int, char>>();
@@ -255,8 +255,8 @@ int main()
     auto mapped = map<int, map<int, char>>();
     //generateCluster(&c, &mapped, 10, 10, score);
 
-    cout << "Clusters: " << optimalClusters.size() << endl;
-
+    cout << "High value clusters:       " << optimalClusters.size() << endl;
+    cout << "Total clusters calculated: " << counter <<endl;
     int maxScore = 0;
     map<int, map<int, char>> bestCluster;
     for( auto cluster : optimalClusters)
