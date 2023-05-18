@@ -53,14 +53,14 @@ public:
     }
 };
 
-vector<Cluster> validClusters = vector<Cluster>();
+vector<Cluster> optimalClusters = vector<Cluster>();
 
-// Saves legal outputs to validClusters
+// Saves highest scoring clusters to optimalClusters
 // Called for every possible cluster found by chainBuilder
 // Calls generateCluster to turn linked words into word search ready arrays.
 void storeCluster(Word* word, list<string> leftOvers)
 {
-    
+
     try
     {
         auto mapResults = map<int, map<int, char>>();
@@ -68,7 +68,21 @@ void storeCluster(Word* word, list<string> leftOvers)
 
         generateCluster(word, &mapResults, 7, 7, score); // Throws error if words don't forma a valid cluster
 
-        validClusters.push_back(Cluster(mapResults, score));
+        // Only store high scoring clusters, for performance.
+        int highScore = 0;
+        
+        if(optimalClusters.size() > 0)
+            highScore = optimalClusters.front().getScore(); 
+        
+
+        if(score > highScore && !optimalClusters.empty()) // If new score is higher then leading old score
+        {   
+                optimalClusters.clear();
+        }
+        if(score >= highScore || optimalClusters.empty()) // If score ties existing high score
+        {
+            optimalClusters.push_back(Cluster(mapResults, score));
+        }
 
     }
     catch(exception e) // Bad cluster was generated
@@ -79,7 +93,7 @@ void storeCluster(Word* word, list<string> leftOvers)
 }
 
 // Chains words into overlapping clusters of words
-// Results are stored in validClusters indirectly through storeCluster()
+// Results are stored in optimalClusters indirectly through storeCluster()
 static void chainBuilder(Word* prev, list<string> words)
 {
     static int count = 0;
@@ -228,8 +242,6 @@ int main()
     words.push_back("lizard");
     words.push_back("dolphin");
     words.push_back("cplusplus");
-    words.push_back("monkey");
-    words.push_back("clay");
 
     Word theGood = Word(NULL, "walrus", RIGHT, 0, 0);
     chainBuilder(&theGood, words);
@@ -243,35 +255,38 @@ int main()
     auto mapped = map<int, map<int, char>>();
     //generateCluster(&c, &mapped, 10, 10, score);
 
-    cout << "Clusters: " << validClusters.size() << endl;
+    cout << "Clusters: " << optimalClusters.size() << endl;
 
     int maxScore = 0;
     map<int, map<int, char>> bestCluster;
-    for( auto cluster : validClusters)
+    for( auto cluster : optimalClusters)
     {
         if(cluster.getScore() > maxScore)
         {
             maxScore = cluster.getScore();
             bestCluster = cluster.getMap();
         }
-    }
 
-    for(int y = 0; y < 20; y++)
-    {
-        for (int x = 0; x < 20; x++)
+        for(int y = 0; y < 20; y++)
         {
-            char output; 
-            try
+            for (int x = 0; x < 20; x++)
             {
-                output = bestCluster[x][y];
+                char output; 
+                try
+                {
+                    output = cluster.getMap()[x][y];
+                }
+                catch(const std::exception& e)
+                {
+                    output = ' ';
+                }
+                cout << " " << ((output == '\0')? ' ' : output);
             }
-            catch(const std::exception& e)
-            {
-                output = ' ';
-            }
-            cout << " " << ((output == '\0')? ' ' : output);
+            cout << '|' <<endl << '|';
         }
-        cout << '|' <<endl << '|';
+        for (int x = 0; x < 20*2; x++)
+            cout << '=';
+        cout <<endl;
     }
 
     SetConsoleTextAttribute(hConsole, 13);
