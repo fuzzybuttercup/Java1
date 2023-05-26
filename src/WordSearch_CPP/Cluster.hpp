@@ -9,7 +9,7 @@
 
 #include "WordSearch.hpp"
 
-// Stores words for crossword puzzle in 2d dictionary, atempting to overlap them.
+// Stores words for crossword puzzle in 2d dictionary, attempting to overlap them.
 // Larger score indicate more overlapping.
 class Cluster {
     std::map<int, std::map<int, char>> clusterMap;
@@ -32,7 +32,7 @@ public:
 
     // Returns a list all clusters tied for highest score
     static std::vector<Cluster> run(std::list<std::string> allWords);
-
+    static std::vector<std::vector<char>> ToArray(Cluster cluster);
     static void getIndexFromDirection(DIRECTION, int&, int&);
 
 private:

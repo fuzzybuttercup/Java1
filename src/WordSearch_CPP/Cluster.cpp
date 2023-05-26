@@ -5,7 +5,7 @@
 using namespace std;
 
 // ---------------------------------- Cluster ------------------------------------
-// Cluster and it's nested class Word are used to generate word searchs.
+// Cluster and it's nested class Word are used to generate word searches.
 // A list of words is passed to run() and an array with as many possible overlapping words is returned.
 
 Cluster::Cluster(map<int, map<int, char>> clusterMap, int score)
@@ -46,8 +46,50 @@ std::vector<Cluster> Cluster::run(list<string> words){
 
     return output;
 }
+// Turns a cluster's map into a 2d vector, starting at 0,0. 
+// The vector is as small as possible while containing the whole cluster.
+// All elements of an axis are the same length.
+// Empty characters are set to ' '.
+vector<vector<char>> Cluster::ToArray(Cluster cluster)
+{
+    map<int, map<int, char>> clusterMap = cluster.getMap();
+    auto results = vector<vector<char>>();
 
-// Turns a direction into an x and a y dirrection.
+    // Gets Y dimensions.
+    int xOffset = clusterMap.begin()->first;
+    int xDist = distance(clusterMap.begin(), clusterMap.end());
+
+    // Gets X dimensions.
+    int minY, maxY, yOffset, yDist;
+    minY = clusterMap.begin()->second.begin()->first; // First X index of the first row.
+    maxY = minY; 
+    for(auto i = clusterMap.begin(); i != clusterMap.end(); ++i) // For each row.
+    {
+        for(auto j = i->second.begin(); j != i->second.end(); ++ j) // For each element in column
+        {
+            int val =  j->first; // Index of X element in row.
+            minY = min(minY, val);
+            maxY = max(maxY, val);
+        }
+    }
+    yOffset = minY;
+    yDist = maxY - minY;
+
+    // Initiate results array
+    results = vector<vector<char>>(xDist, vector<char>(yDist, ' '));
+
+    for(int y = 0; y < yDist; y++)
+    {
+        for(int x = 0; x < xDist; x++)
+        {
+            char val = clusterMap[xOffset + x][yOffset + y];
+            results[x][y] =  (val == '\0')? ' ' : val;
+        }
+    }
+
+    return results;
+}
+// Turns a direction into an x and a y direction.
 // Up and right are positive
 void Cluster::getIndexFromDirection(DIRECTION dir, int& x, int& y)
 {
@@ -139,7 +181,7 @@ void Cluster::storeCluster(Word* word, list<string> leftOvers, vector<Cluster> &
         auto mapResults = map<int, map<int, char>>();
         int score = 0;
 
-        generateCluster(word, &mapResults, 7, 7, score); // Throws error if words don't forma a valid cluster
+        generateCluster(word, &mapResults, 0, 0, score); // Throws error if words don't forma a valid cluster
 
         // Only store high scoring clusters, for performance.
         int highScore = 0;
