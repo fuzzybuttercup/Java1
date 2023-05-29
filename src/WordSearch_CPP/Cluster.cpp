@@ -73,7 +73,7 @@ vector<vector<char>> Cluster::ToArray(Cluster cluster)
         }
     }
     yOffset = minY;
-    yDist = maxY - minY;
+    yDist = (maxY - minY) + 1;
 
     // Initiate results array
     results = vector<vector<char>>(xDist, vector<char>(yDist, ' '));
@@ -83,7 +83,7 @@ vector<vector<char>> Cluster::ToArray(Cluster cluster)
         for(int x = 0; x < xDist; x++)
         {
             char val = clusterMap[xOffset + x][yOffset + y];
-            results[x][y] =  (val == '\0')? ' ' : val;
+            results[x][y] =  (val == '\0')? ' ' : val; // Set space if character is null
         }
     }
 
