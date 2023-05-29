@@ -11,3 +11,6 @@ src/PhoneBook_C/phone_book.exe
 src/LetterInventory_C/LetterInventory.exe
 src/WordSearch_CPP/WordSearch.exe
 *.exe
+*.obj
+*.pdb
+*.ilk
