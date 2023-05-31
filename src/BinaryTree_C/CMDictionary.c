@@ -10,6 +10,10 @@
     As a binary search tree, child nodes with a lesser key are stored on "lesser" and nodes with a bigger key on "greater".
     There is no balancing per assignment instructions and printing the tree uses 
 
+    The user may add, delete, search by key, and print all nodes. As well as load some pre built nodes for expediency.
+    For extra credit I:
+        Used C
+
 */
 #include <stdio.h>
 #include <inttypes.h> 
@@ -202,7 +206,7 @@ void userInterface()
         // Get input
         scanf("%1s", input);
         char first = tolower(input[0]);
-
+        int key = 0;
         switch (first)
         {
         case 'a': // Add a node
@@ -212,17 +216,15 @@ void userInterface()
             printTree(baseNode);
             break;
         case 's': // search
-            int k;
-            printf("Enter the key of the node you would like to remove: ");
-            scanf("%i", k);
-            printDictionary(searchTree(baseNode, k));
+            printf("Enter the key of the node you would like to print: ");
+            scanf("%d", &key);
+            printDictionary(searchTree(baseNode, key));
 
             break;
         case 'd': // Delete
-            int k;
             printf("Enter the key of the node you would like to remove: ");
-            scanf("%i", k);
-            deleteDictionary(&baseNode, searchTree(baseNode, k));
+            scanf("%d", &key);
+            deleteDictionary(&baseNode, searchTree(baseNode, key));
 
             break;
         case 'l':
