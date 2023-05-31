@@ -14,13 +14,13 @@ typedef struct dictionary Dictionary;
 const char* DICT_FIELDS[] = {"First Name", "Last Name", "Address", "City", "State", "Email", "Zip", NULL};
 struct dictionary // Binary search tree node
 {
-    char* firstName;
-    char* lastName;
-    char* address;
-    char* city;
-    char* state;
-    char* email;
-    char* zip;
+    char firstName[STR_LENG];
+    char lastName[STR_LENG];
+    char address[STR_LENG];
+    char city[STR_LENG];
+    char state[STR_LENG];
+    char email[STR_LENG];
+    char zip[STR_LENG];
 
     // Unique key for sorting nodes
     int key;
@@ -28,15 +28,7 @@ struct dictionary // Binary search tree node
     // Binary search tree nodes 
     Dictionary* greater;
     Dictionary* lesser;
-} *baseNode, // baseNode is the root of our dictionary
-defaultNodes[] = // For demonstrating code
-{
-    {"Joe", "Miller", "Address", "City", "State", "Email", "Zip", 1001, NULL, NULL}, 
-    {"Bob", "Miller", "Address", "City", "State", "Email", "Zip", 1002, NULL, NULL},
-    {"Jim", "Fisher", "Address", "City", "State", "Email", "Zip", 1003, NULL, NULL},
-    {"Kim", "Baker", "Address", "City", "State", "Email", "Zip", 1004, NULL, NULL},
-
-}; 
+} *baseNode; // baseNode is the root of our dictionary
 
 
 
