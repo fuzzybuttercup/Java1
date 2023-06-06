@@ -3,6 +3,10 @@
     Clay Molitor
     CS 145: Assignment 1, Word Search
 
+    Performance rework:
+    TODO
+
+
     My program will prompt users to enter words and then display a word search puzzle.
     The puzzle can ve displayed with entered words highlighted.
     The program will ALWAYS overlap words if it is possible, however this thoroughness comes at the cost of performance.
