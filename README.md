@@ -5,4 +5,4 @@ WordSearch_CPP is programmed in C++ and uses recursion to create a grid of overl
 
 PhoneBook_C is programmed in C and implemnts linked lists and free and malloc for memory managment.
 
-For Critters we where given most of the code and where assigned to make a single critter for the existing game. My critter, located in Sheep.java, accesses protected data in the main game and manipulates it to win instantly. It can also be used in a typical fashion.
+For Critters we where given most of the code and where assigned to make a single critter for the existing game. My critter, located in Sheep.java, accesses protected data in the main game and manipulates it to win instantly. These cheats can be disabled and my critter will run in a more typical fashion.
